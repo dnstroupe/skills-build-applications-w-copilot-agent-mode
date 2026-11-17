@@ -28,22 +28,21 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 ## Implementation decisions
 
-Record your plan here before editing code.
+These decisions keep presentation, business logic, and persistence separate.
 
-- Presentation tier decision:
-- Logic tier decision:
-- Data tier decision:
-- Activity tracking approach:
-- Team management approach:
-- Leaderboard approach:
-- Workout suggestions approach:
+- Presentation tier decision: Use React routes and components with the shared API client; show accessible loading, empty, and error states.
+- Logic tier decision: Keep API behavior in explicit Express service functions; validate inputs and return deliberate 4xx responses.
+- Data tier decision: Enforce required fields and defaults in Mongoose schemas; seed with upserts, preserve unrelated records, and reconcile moved demo-user memberships.
+- Activity tracking approach: Validate activity input and existing user/team references, then store the activity with computed points and timestamp.
+- Team management approach: Require a name, retain the mascot, and persist the submitted members.
+- Leaderboard approach: Sum activity points by team, sort highest first, and assign 1-based ranks.
+- Workout suggestions approach: Match the user by email and recommend workouts based on their goal or recent activity, with a reason; return 4xx when no user matches.
 
 ## Test plan
 
-Record the commands you run and what each failure means.
-
-- Data-tier command: `npm run test:data --prefix octofit-tracker/backend`
-- API command: `npm run test:api --prefix octofit-tracker/backend`
-- Frontend command: `npm test --prefix octofit-tracker/frontend`
-- Backend build command: `npm run build --prefix octofit-tracker/backend`
-- Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+- MongoDB check: `mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'` — passed (`{ ok: 1 }`).
+- Dependency installs: `npm ci --prefix octofit-tracker/backend` and `npm ci --prefix octofit-tracker/frontend` — both passed; npm reported 10 backend and 6 frontend audit vulnerabilities.
+- Backend baseline: `npm test --prefix octofit-tracker/backend` — 8 failed, 1 passed. Four data-schema checks and all four API contract checks failed; the idempotent seed test passed.
+- Frontend baseline: `npm test --prefix octofit-tracker/frontend` — 15 failed. Rendering, route requests, and accessible loading, empty, and error states are not implemented.
+- Backend build: `npm run build --prefix octofit-tracker/backend` — passed.
+- Frontend build: `npm run build --prefix octofit-tracker/frontend` — passed.
