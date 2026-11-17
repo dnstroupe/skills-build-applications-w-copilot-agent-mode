@@ -40,9 +40,17 @@ These decisions keep presentation, business logic, and persistence separate.
 
 ## Test plan
 
+- Data-tier command: `npm run test:data --prefix octofit-tracker/backend`
+- API command: `npm run test:api --prefix octofit-tracker/backend`
+- Frontend command: `npm test --prefix octofit-tracker/frontend`
+- Backend build command: `npm run build --prefix octofit-tracker/backend`
+- Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+
+Baseline checks:
+
 - MongoDB check: `mongosh --quiet --eval 'db.adminCommand({ ping: 1 })'` — passed (`{ ok: 1 }`).
 - Dependency installs: `npm ci --prefix octofit-tracker/backend` and `npm ci --prefix octofit-tracker/frontend` — both passed; npm reported 10 backend and 6 frontend audit vulnerabilities.
-- Backend baseline: `npm test --prefix octofit-tracker/backend` — 8 failed, 1 passed. Four data-schema checks and all four API contract checks failed; the idempotent seed test passed.
-- Frontend baseline: `npm test --prefix octofit-tracker/frontend` — 15 failed. Rendering, route requests, and accessible loading, empty, and error states are not implemented.
-- Backend build: `npm run build --prefix octofit-tracker/backend` — passed.
-- Frontend build: `npm run build --prefix octofit-tracker/frontend` — passed.
+- Backend baseline, `npm test --prefix octofit-tracker/backend`: 8 failed, 1 passed. Four data-schema checks and all four API contract checks failed; the idempotent seed test passed.
+- Frontend baseline, `npm test --prefix octofit-tracker/frontend`: 15 failed. Rendering, route requests, and accessible loading, empty, and error states are not implemented.
+- Backend build, `npm run build --prefix octofit-tracker/backend`: passed.
+- Frontend build, `npm run build --prefix octofit-tracker/frontend`: passed.
